@@ -25,7 +25,7 @@ LabelBase.register(name="PoppinsThin", fn_regular="fonts/Poppins-Thin.ttf")
 LabelBase.register(name="Elegance", fn_regular="fonts/Rounded_Elegance.ttf")
 LabelBase.register(name="Tex", fn_regular="fonts/tex-gyre-adventor.regular.otf")
 LabelBase.register(name="TexBold", fn_regular="fonts/tex-gyre-adventor.bold.otf")
-Window.size = (575, 960)
+#Window.size = (575, 960)
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 
