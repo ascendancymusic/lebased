@@ -1,0 +1,112 @@
+#:import Factory kivy.factory.Factory
+<ToDoScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'gradient.jpg'
+    BoxLayout:
+        orientation: 'vertical'
+        MDFlatButton:
+            text: "< Back"
+            theme_text_color: "Custom"
+            text_color: (1, 1, 1, 1)
+            md_bg_color: (0, 0.169, 0.357, 1)
+            size_hint: None, None
+            size: 100, 50
+            font_name: "Tex"
+            pos_hint: {'x': 0, 'y': 1}
+            on_release: 
+                root.manager.current = 'main'
+                root.manager.transition.direction = 'right'
+            elevation: 100  # Adjust the shadow elevation here
+        Label:
+            id: date_label
+            text: root.current_date.strftime("%A, %B %d, %Y")  # Display the current date
+            font_size: '20sp'
+            font_name: "TexBold"
+            size_hint: 1, 0.1
+            color: 1, 1, 1, 1
+        MDFloatLayout:
+            size_hint_y: 0.1
+            MDIconButton:
+                icon: "chevron-left"
+                pos_hint: {'x': .2, 'y': 1}
+                theme_text_color: "Custom"
+                text_color: (1, 1, 1, 1)
+                on_release: root.update_date(-1)  # Navigate to the previous date
+            MDIconButton:
+                icon: "chevron-right"
+                pos_hint: {'x': .72, 'y': 1}
+                theme_text_color: "Custom"
+                text_color: (1, 1, 1, 1)
+                on_release: root.update_date(1)  # Navigate to the next date
+        ScrollView:
+            size_hint_y: 0.7
+            GridLayout:
+                id: task_list
+                cols: 1
+                spacing: '5dp'
+                padding: '5dp'  # Adjusted padding
+                size_hint_y: None
+                height: self.minimum_height
+        MDFloatingActionButton:
+            icon: "plus"
+            md_bg_color: (0.341, 0.773, 0.714, 1)
+            elevation_normal: 12
+            pos_hint: {"right": 1, "bottom": 0}
+            on_release: root.manager.current = 'add_todo'
+
+<TaskBoxLayout>:
+    title_label: title_label
+    description_label: description_label
+    orientation: 'vertical'
+    size_hint_y: None
+    height: '90dp'  # Adjusted height
+    canvas.before:
+        Color:
+            rgba: (0, 0.169, 0.357, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [5, 5, 5, 5]  # Adjusted radius
+    BoxLayout:
+        size_hint_y: None
+        height: '45dp'  # Adjusted height
+        padding: '10dp'  # Added padding
+        Label:
+            id: title_label
+            text: ''
+            font_name: "TexBold"
+            font_size: '18sp'
+            size_hint_x: 0.8
+            text_size: self.width, None
+            valign: 'middle'
+            halign: 'left'  # Adjusted alignment
+            markup: True
+        CheckBox:
+            id: checkbox
+            size_hint_x: None
+            width: '30dp'
+            pos_hint: {'right': 1, 'center_y': 0.5}
+            active: root.checkbox_state
+            on_active: root.on_checkbox_active(self, self.active)
+        MDIconButton:
+            icon: "delete"
+            theme_text_color: "Custom"
+            text_color: (1, 1, 1, 1)
+            pos_hint: {'right': 1, 'center_y': 0.5}
+            # Adjusted on_release event to call the delete_task method of the ToDoScreen instance
+            on_release: app.root.get_screen('todo').delete_task(root.task_id)
+    Label:
+        id: description_label
+        text: ''
+        font_name: "Tex"
+        font_size: '16sp'
+        size_hint_y: None
+        height: '45dp'  # Adjusted height
+        padding: '10dp'  # Added padding
+        text_size: self.width, None
+        valign: 'middle'
+        halign: 'left'  # Adjusted alignment
+        markup: True
