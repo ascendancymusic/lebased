@@ -13,6 +13,9 @@ jobs:
       - name: Remove extra header
         run: git config --global --unset http.https://github.com/.extraheader || true
 
+      - name: Install Python development headers
+        run: sudo apt-get install python3-dev
+
       # used to cache dependencies with a timeout
       - name: Get Date
         id: get-date
